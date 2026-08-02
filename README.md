@@ -28,7 +28,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open http://localhost:5000 in a browser.
+Open http://localhost:5050 in a browser.
 
 ## Run with Docker
 
@@ -41,10 +41,10 @@ docker build . -t shaharc20
 Run the container:
 
 ```
-docker run --rm -p 5000:5000 shaharc20
+docker run --rm -p 5050:5050 shaharc20
 ```
 
-Open http://localhost:5000 in a browser.
+Open http://localhost:5050 in a browser.
 
 The application listens on port `5000` by default. To use another internal port, set the `PORT` environment variable and publish the same container port:
 
