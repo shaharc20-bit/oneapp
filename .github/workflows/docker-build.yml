@@ -1,35 +1,28 @@
 name: Build and smoke-test Docker image
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Build image
         run: docker build . -t oneapp:ci
-
       - name: Start container
         run: docker run -d --name oneapp-ci -p 5050:5050 oneapp:ci
-
       - name: Wait for service to be ready
         run: |
           for i in {1..10}; do
             curl -sf http://localhost:5050/health && break
             sleep 1
           done
-
       - name: Verify endpoints
         run: |
-          curl -sf http://localhost:5050/ | grep "Hello Devops World"
-          curl -sf http://localhost:5050/health | grep healthy
-
+          curl -sf http://localhost:5050/ | grep "Service Online"
+          curl -sf http://localhost:5050/health | grep '"ok"'
       - name: Clean up
         if: always()
         run: docker rm -f oneapp-ci
