@@ -14,12 +14,20 @@ spec:
       labels:
         app: {{ .Release.Name }}-oneapp
     spec:
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Release.Name }}-oneapp-config
       containers:
         - name: oneapp
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/oneapp-config
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /health

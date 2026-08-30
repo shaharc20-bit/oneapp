@@ -10,12 +10,20 @@ app = Flask(__name__)
 APP_NAME = os.environ.get("APP_NAME", "OneApp")
 APP_VERSION = os.environ.get("APP_VERSION", "1.0.0")
 START_TIME = time.time()
+CONFIG_PATH = "/etc/oneapp-config/welcome.txt"
 
 def get_uptime():
     seconds = int(time.time() - START_TIME)
     hours, remainder = divmod(seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{hours}h {minutes}m {seconds}s"
+
+def get_config_message():
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return "(אין הודעת קונפיגורציה - ה-Volume לא מחובר, כנראה רץ מחוץ ל-Kubernetes)"
 
 HOME_TEMPLATE = """
 <!DOCTYPE html>
@@ -91,6 +99,7 @@ HOME_TEMPLATE = """
     padding: 18px 20px;
     backdrop-filter: blur(12px);
   }
+  .card.wide { grid-column: 1 / -1; }
   .card .label {
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -101,7 +110,12 @@ HOME_TEMPLATE = """
   .card .value {
     font-size: 1.15rem;
     font-weight: 600;
-    word-break: break-all;
+    word-break: break-word;
+  }
+  .card.wide .value {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
   }
   footer {
     margin-top: 28px;
@@ -141,6 +155,10 @@ HOME_TEMPLATE = """
         <div class="label">Health Check</div>
         <div class="value"><a href="/health" style="color:var(--accent)">/health →</a></div>
       </div>
+      <div class="card wide">
+        <div class="label">Config from Volume (ConfigMap)</div>
+        <div class="value">{{ config_message }}</div>
+      </div>
     </div>
     <footer>רענן את הדף כמה פעמים - אם יש כמה replicas, תראה את שם ה-Pod מתחלף</footer>
   </div>
@@ -157,7 +175,8 @@ def home():
         hostname=socket.gethostname(),
         uptime=get_uptime(),
         python_version=platform.python_version(),
-        time=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+        time=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
+        config_message=get_config_message()
     )
 
 @app.route("/health")
@@ -172,6 +191,7 @@ def info():
         hostname=socket.gethostname(),
         uptime=get_uptime(),
         python_version=platform.python_version(),
+        config_message=get_config_message()
     )
 
 if __name__ == "__main__":

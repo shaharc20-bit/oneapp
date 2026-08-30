@@ -15,3 +15,6 @@ ingress:
   className: nginx
   host: oneapp.local
   path: /
+
+config:
+  welcomeMessage: "ברוכים הבאים ל-oneapp! ההודעה הזו מגיעה מ-ConfigMap שמחובר כ-Volume לתוך ה-Pod."
