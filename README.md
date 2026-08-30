@@ -40,71 +40,30 @@ Every push to main triggers a GitHub Actions job that builds the Docker image, s
 
 This repository also includes a Helm chart (`chart/`) for deploying the service to a Kubernetes cluster.
 
-### What the chart creates
+**What the chart creates:**
 
-- **Deployment** - runs 2 replicas of the app, with liveness/readiness probes hitting `/health`
-- **Service** - a ClusterIP service exposing port 80 inside the cluster
-- **Ingress** - routes external traffic from `oneapp.local` to the service (requires an nginx ingress controller)
-- **ConfigMap + Volume** - injects a welcome message file into each pod at `/etc/oneapp-config/welcome.txt`, mounted as a read-only volume and displayed on the dashboard
+- Deployment - runs 2 replicas of the app, with liveness/readiness probes hitting `/health`
+- Service - a ClusterIP service exposing port 80 inside the cluster
+- Ingress - routes external traffic from `oneapp.local` to the service (requires an nginx ingress controller)
+- ConfigMap + Volume - injects a welcome message file into each pod at `/etc/oneapp-config/welcome.txt`, mounted as a read-only volume and displayed on the dashboard
 
-### Prerequisites
-
-- A running Kubernetes cluster (tested with `minikube`)
-- `helm` installed
-- Ingress addon enabled: `minikube addons enable ingress`
-
-### Steps
-
-```bash
-# Build the image and load it into the cluster (minikube example)
-docker build -t shaharc20:latest .
-minikube image load shaharc20:latest
-
-# Install (first time) or upgrade (subsequent changes)
-helm install oneapp ./chart
-# or: helm upgrade oneapp ./chart
-
-# Point oneapp.local at the cluster
-echo "$(minikube ip) oneapp.local" | sudo tee -a /etc/hosts
-
-# Visit the app
-curl http://oneapp.local
-```
-
-Refresh the page a few times - since there are 2 replicas, the "Pod / Host" field on the dashboard alternates between pods, demonstrating Kubernetes load balancing.
-
-## Deploying to Kubernetes with Helm
-
-This repository also includes a Helm chart (`chart/`) for deploying the service to a Kubernetes cluster.
-
-### What the chart creates
-
-- **Deployment** - runs 2 replicas of the app, with liveness/readiness probes hitting `/health`
-- **Service** - a ClusterIP service exposing port 80 inside the cluster
-- **Ingress** - routes external traffic from `oneapp.local` to the service (requires an nginx ingress controller)
-- **ConfigMap + Volume** - injects a welcome message file into each pod at `/etc/oneapp-config/welcome.txt`, mounted as a read-only volume and displayed on the dashboard
-
-### Prerequisites
+**Prerequisites:**
 
 - A running Kubernetes cluster (tested with `minikube`)
 - `helm` installed
 - Ingress addon enabled: `minikube addons enable ingress`
 
-### Steps
+**Steps:**
 
 ```bash
-# Build the image and load it into the cluster (minikube example)
 docker build -t shaharc20:latest .
 minikube image load shaharc20:latest
 
-# Install (first time) or upgrade (subsequent changes)
 helm install oneapp ./chart
 # or: helm upgrade oneapp ./chart
 
-# Point oneapp.local at the cluster
 echo "$(minikube ip) oneapp.local" | sudo tee -a /etc/hosts
 
-# Visit the app
 curl http://oneapp.local
 ```
 
