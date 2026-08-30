@@ -16,10 +16,8 @@ pipeline {
         stage('Setup Python Environment') {
             steps {
                 sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    pip3 install --user --upgrade pip
+                    pip3 install --user -r requirements.txt
                 '''
             }
         }
@@ -27,7 +25,6 @@ pipeline {
         stage('Run Flask Application') {
             steps {
                 sh '''
-                    . venv/bin/activate
                     nohup python3 app.py > flask.log 2>&1 &
                     sleep 5
                 '''
