@@ -1,0 +1,17 @@
+replicaCount: 2
+
+image:
+  repository: shaharc20
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5050
+
+ingress:
+  enabled: true
+  className: nginx
+  host: oneapp.local
+  path: /
