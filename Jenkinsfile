@@ -4,6 +4,7 @@ pipeline {
     environment {
         APP_NAME = "oneapp"
         PORT     = "5050"
+        KUBECONFIG = "/tmp/kubeconfig"
     }
 
     stages {
@@ -45,6 +46,15 @@ pipeline {
                 archiveArtifacts artifacts: 'flask.log', allowEmptyArchive: true
             }
         }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                    helm upgrade oneapp chart/ --install
+                    kubectl rollout status deployment/oneapp-oneapp --timeout=60s
+                '''
+            }
+        }
     }
 
     post {
@@ -53,7 +63,7 @@ pipeline {
             echo "Cleaning up workspace..."
         }
         success {
-            echo "Build succeeded!"
+            echo "Build succeeded and deployed to Kubernetes!"
         }
         failure {
             echo "Build failed - check flask.log in artifacts."
