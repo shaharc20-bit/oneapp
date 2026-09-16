@@ -4,7 +4,7 @@ pipeline {
     environment {
         APP_NAME = "oneapp"
         PORT     = "5050"
-        KUBECONFIG = "/tmp/kubeconfig"
+        KUBECONFIG = "/var/jenkins_home/.kube/config"
     }
 
     stages {
@@ -50,8 +50,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'helm upgrade oneapp chart/ --install'
-                   sh 'helm upgrade oneapp chart/ --install --kubeconfig /var/jenkins_home/.kube/config'
-                '''
             }
         }
     }
