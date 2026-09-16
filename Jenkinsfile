@@ -49,9 +49,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
-                    helm upgrade oneapp chart/ --install
-                    kubectl rollout status deployment/oneapp-oneapp --timeout=60s
+                sh 'helm upgrade oneapp chart/ --install'
+                   sh 'helm upgrade oneapp chart/ --install --kubeconfig /var/jenkins_home/.kube/config'
                 '''
             }
         }
