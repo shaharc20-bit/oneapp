@@ -17,8 +17,8 @@ pipeline {
         stage('Setup Python Environment') {
             steps {
                 sh '''
-                    pip3 install --user --upgrade pip
-                    pip3 install --user -r requirements.txt
+                    pip3 install --break-system-packages --user --upgrade pip
+                    pip3 install --break-system-packages  --user -r requirements.txt
                 '''
             }
         }
