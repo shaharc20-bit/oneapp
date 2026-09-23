@@ -1,0 +1,60 @@
+# Pod Design Q2 — 5 nginx pods: 2 env=prod, 3 env=dev
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-prod-1
+  labels:
+    env: prod
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-prod-2
+  labels:
+    env: prod
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-dev-1
+  labels:
+    env: dev
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-dev-2
+  labels:
+    env: dev
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-dev-3
+  labels:
+    env: dev
+    app: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx

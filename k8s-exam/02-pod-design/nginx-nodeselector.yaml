@@ -1,0 +1,17 @@
+# Pod Design Q16 — nginx pod scheduled onto the node labeled nodeName=nginxnode
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    run: nginx
+    exam: pod-design-16
+spec:
+  nodeSelector:
+    nodeName: nginxnode
+  containers:
+    - name: nginx
+      image: nginx
+      resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never

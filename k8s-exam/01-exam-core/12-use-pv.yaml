@@ -1,0 +1,23 @@
+# Q12 — corrected from the exam's broken snippet
+# (metadata.name was glued to spec: "name: use-pvspec-yourname containers:")
+apiVersion: v1
+kind: Pod
+metadata:
+  name: use-pvspec-shahar
+  labels:
+    run: use-pv
+    exam: q12
+spec:
+  containers:
+    - name: use-pv
+      image: nginx
+      volumeMounts:
+        - name: pv-storage
+          mountPath: /data
+      resources: {}
+  volumes:
+    - name: pv-storage
+      persistentVolumeClaim:
+        claimName: pvc-1
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
