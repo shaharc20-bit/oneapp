@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+cd "$(dirname "$0")/.."
 
 echo "=== מחזור 1: webapp עם nginx, 5 עותקים ==="
 kubectl apply -f 03-deployments/webapp-v1.yaml
