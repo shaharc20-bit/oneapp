@@ -30,6 +30,8 @@ spec:
             - name: config-volume
               mountPath: /etc/oneapp-config
               readOnly: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /health
