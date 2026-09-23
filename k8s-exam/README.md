@@ -21,4 +21,4 @@ helm:
 helm upgrade --install oneapp-exam ./chart
 ```
 
-static pods להעתיק ל /etc/kubernetes/manifests
+
