@@ -1,0 +1,54 @@
+שחר כהן - פקודות שעשיתי בבחינה
+
+# 1
+kubectl run nginx-pod-shahar --image=nginx:alpine
+
+# 2
+kubectl run messaging --image=redis:alpine --labels=tier=msg
+
+# 3
+kubectl create ns apx-x998-shahar
+
+# 4
+kubectl get nodes -o json > /tmp/nodes-shahar
+
+# 5
+kubectl expose pod messaging --name=messaging-service --port=6379 --target-port=6379 --type=ClusterIP
+
+# 6 yaml
+# 05-messaging-service.yaml
+
+# 7
+kubectl create deploy hr-web-app --image=kodekloud/webapp-color --replicas=2
+
+# 8 static - העתקה ל /etc/kubernetes/manifests במאסטר
+
+# 9
+kubectl create ns finance-shahar
+kubectl run temp-bus --image=redis:alpine -n finance-shahar
+
+# 13
+kubectl create deploy nginx-deploy --image=nginx:1.16 --replicas=1
+kubectl set image deploy/nginx-deploy nginx=nginx:1.17
+kubectl annotate deploy/nginx-deploy kubernetes.io/change-cause="1.16 to 1.17" --overwrite
+
+# 14
+kubectl run nginx-resolver --image=nginx --labels=app=nginx-resolver
+kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80
+kubectl run tmp-dns --image=busybox:1.28 --restart=Never -- sleep 3600
+kubectl exec tmp-dns -- nslookup nginx-resolver-service > /root/nginx-shahar.svc
+
+# labels
+kubectl get po --show-labels
+kubectl get po -l env=dev
+kubectl get po -l 'env in (dev,prod)' --show-labels
+kubectl label po nginx-prod-1 env=uat --overwrite
+kubectl label node minikube nodeName=nginxnode --overwrite
+
+# deploy
+kubectl set image deploy/webapp nginx=nginx:1.17.4
+kubectl rollout undo deploy/webapp
+kubectl autoscale deploy webapp --min=10 --max=20 --cpu-percent=85
+
+# cm
+kubectl create cm keyvalcfgmap --from-env-file=05-configmap/config.txt

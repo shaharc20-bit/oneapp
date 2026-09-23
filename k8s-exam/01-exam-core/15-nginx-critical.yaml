@@ -1,23 +1,9 @@
-# Q15 — Static pod on node01 named nginx-critical.
-# Static pods are restarted by kubelet if they die.
-#
-# On a real cluster (node01):
-#   scp 15-nginx-critical.yaml node01:/etc/kubernetes/manifests/nginx-critical.yaml
-#
-# On minikube (single node — treat it as node01):
-#   minikube ssh "sudo mkdir -p /etc/kubernetes/manifests"
-#   cat 15-nginx-critical.yaml | minikube ssh "sudo tee /etc/kubernetes/manifests/nginx-critical.yaml"
 apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-critical
-  labels:
-    exam: q15
-    type: static-pod
 spec:
   containers:
     - name: nginx
       image: nginx
-      ports:
-        - containerPort: 80
   restartPolicy: Always

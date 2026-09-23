@@ -1,21 +1,14 @@
-# Q13 — start at nginx:1.16, record the change, then rolling-update to 1.17
-# Apply this first, then run the recorded set-image command in ANSWERS.md
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deploy
-  labels:
-    app: nginx-deploy
-    exam: q13
   annotations:
-    kubernetes.io/change-cause: "initial create with nginx:1.16"
+    kubernetes.io/change-cause: "nginx 1.16"
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: nginx-deploy
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:

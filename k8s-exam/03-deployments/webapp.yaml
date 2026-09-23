@@ -2,10 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp
-  labels:
-    app: webapp
-  annotations:
-    kubernetes.io/change-cause: "create webapp with nginx:1.17.1"
 spec:
   replicas: 5
   selector:
@@ -26,8 +22,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: webapp
-  labels:
-    exam: deployments-q11
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

@@ -2,12 +2,9 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: hello-job
-  labels:
-    exam: job-q14
 spec:
   completions: 10
   parallelism: 1
-  backoffLimit: 4
   template:
     spec:
       restartPolicy: Never

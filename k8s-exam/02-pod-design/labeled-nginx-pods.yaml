@@ -1,4 +1,3 @@
-# Pod Design Q2 — 5 nginx pods: 2 env=prod, 3 env=dev
 apiVersion: v1
 kind: Pod
 metadata:
