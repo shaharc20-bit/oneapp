@@ -1,33 +1,24 @@
-# K8s Workshop Exam — Shahar Cohen (`shahar`)
+# k8s exam
 
-Manifests, Helm chart, and kubectl answers for the K8s workshop exam.
+שחר כהן
 
-Every `yourname` placeholder is replaced with **`shahar`**.
+```
+kubectl apply -f 01-exam-core/
+kubectl apply -f 02-pod-design/
+kubectl apply -f 03-deployments/
+kubectl apply -f 04-jobs/
+kubectl apply -f 05-configmap/
+```
 
-## Layout
-
-- `01-exam-core/` questions 1-16
-- `02-pod-design/` labels, selectors, nodeSelector
-- `03-deployments/` rollout, rollback, HPA
-- `04-jobs/` Job with completions: 10
-- `05-configmap/` config.txt + ConfigMap + pod envFrom
-- `06-commands/` imperative kubectl scripts
-- `chart/` Helm chart
-- `apply-all.sh` apply declarative manifests
-- `ANSWERS.md` question to command mapping
-
-## Quick start
-
-```bash
-cd k8s-exam
-chmod +x apply-all.sh 06-commands/*.sh
+```
+chmod +x apply-all.sh
 ./apply-all.sh
 ```
 
-## Helm
+helm:
 
-```bash
-helm upgrade --install k8s-exam ./chart
+```
+helm upgrade --install oneapp-exam ./chart
 ```
 
-Static pods (Q8, Q15) must be copied to `/etc/kubernetes/manifests/` on the node.
+static pods להעתיק ל /etc/kubernetes/manifests

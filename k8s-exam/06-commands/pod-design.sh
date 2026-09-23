@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
 kubectl get pods --show-labels
 kubectl run nginx-prod-1 --image=nginx --labels=env=prod,app=nginx
 kubectl run nginx-prod-2 --image=nginx --labels=env=prod,app=nginx
@@ -15,6 +14,5 @@ kubectl label pod nginx-prod-1 nginx-prod-2 nginx-dev-1 nginx-dev-2 nginx-dev-3 
 kubectl label pod nginx-prod-1 nginx-prod-2 nginx-dev-1 nginx-dev-2 nginx-dev-3 app=nginx --overwrite
 kubectl get nodes --show-labels
 NODE=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
-kubectl label node "${NODE}" nodeName=nginxnode --overwrite
+kubectl label node $NODE nodeName=nginxnode --overwrite
 kubectl apply -f 02-pod-design/nginx-nodeselector.yaml
-kubectl get pod nginx -o wide --show-labels

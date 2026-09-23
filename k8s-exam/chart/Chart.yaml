@@ -1,6 +1,6 @@
 apiVersion: v2
 name: k8s-exam
-description: Helm chart packaging the K8s workshop exam core objects (Shahar Cohen)
+description: exam chart
 type: application
-version: 1.0.0
-appVersion: "1.0.0"
+version: 0.1.0
+appVersion: "1.0"

@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
-set -euo pipefail
-ROOT="$(cd "$(dirname "$0")" && pwd)"
-cd "$ROOT"
+#!/bin/bash
+set -e
+cd "$(dirname "$0")"
+
 kubectl apply -f 01-exam-core/03-namespace.yaml
 kubectl apply -f 01-exam-core/01-nginx-pod.yaml
 kubectl apply -f 01-exam-core/02-messaging-pod.yaml
@@ -19,4 +19,5 @@ kubectl apply -f 02-pod-design/labeled-nginx-pods.yaml
 kubectl apply -f 04-jobs/hello-job.yaml
 kubectl apply -f 05-configmap/keyvalcfgmap.yaml
 kubectl apply -f 05-configmap/nginx-pod.yaml
-echo "Static pods: copy Q8/Q15 yaml into /etc/kubernetes/manifests/"
+
+echo done
