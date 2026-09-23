@@ -1,0 +1,34 @@
+nameSuffix: shahar
+
+namespaces:
+  exam: apx-x998-shahar
+  finance: finance-shahar
+
+nginxPod:
+  name: nginx-pod-shahar
+  image: nginx:alpine
+
+messaging:
+  podName: messaging
+  image: redis:alpine
+  label: msg
+  serviceName: messaging-service
+  port: 6379
+
+hrWebApp:
+  name: hr-web-app
+  image: kodekloud/webapp-color
+  replicas: 2
+
+nginxDeploy:
+  name: nginx-deploy
+  image: nginx:1.16
+  replicas: 1
+
+multiPod:
+  enabled: true
+
+pvAnalytics:
+  name: pv-analytics
+  storage: 100Mi
+  hostPath: /pv/data-analytics

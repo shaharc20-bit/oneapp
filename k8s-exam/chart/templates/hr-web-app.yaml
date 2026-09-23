@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.hrWebApp.name }}
+  labels:
+    app: {{ .Values.hrWebApp.name }}
+    {{- include "k8s-exam.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.hrWebApp.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.hrWebApp.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.hrWebApp.name }}
+    spec:
+      containers:
+        - name: webapp
+          image: {{ .Values.hrWebApp.image }}
+          ports:
+            - containerPort: 8080

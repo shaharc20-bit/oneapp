@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.pvAnalytics.name }}
+  labels:
+    {{- include "k8s-exam.labels" . | nindent 4 }}
+spec:
+  capacity:
+    storage: {{ .Values.pvAnalytics.storage }}
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: {{ .Values.pvAnalytics.hostPath }}
+    type: DirectoryOrCreate

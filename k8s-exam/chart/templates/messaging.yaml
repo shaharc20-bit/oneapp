@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Values.messaging.podName }}
+  labels:
+    tier: {{ .Values.messaging.label }}
+    {{- include "k8s-exam.labels" . | nindent 4 }}
+spec:
+  containers:
+    - name: redis
+      image: {{ .Values.messaging.image }}
+      ports:
+        - containerPort: {{ .Values.messaging.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.messaging.serviceName }}
+  labels:
+    {{- include "k8s-exam.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    tier: {{ .Values.messaging.label }}
+  ports:
+    - name: redis
+      port: {{ .Values.messaging.port }}
+      targetPort: {{ .Values.messaging.port }}

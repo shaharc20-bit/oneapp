@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nginxDeploy.name }}
+  annotations:
+    kubernetes.io/change-cause: "helm install nginx:1.16"
+  labels:
+    {{- include "k8s-exam.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.nginxDeploy.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.nginxDeploy.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.nginxDeploy.name }}
+    spec:
+      containers:
+        - name: nginx
+          image: {{ .Values.nginxDeploy.image }}
+          ports:
+            - containerPort: 80

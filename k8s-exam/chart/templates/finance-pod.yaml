@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: temp-bus
+  namespace: {{ .Values.namespaces.finance }}
+  labels:
+    {{- include "k8s-exam.labels" . | nindent 4 }}
+spec:
+  containers:
+    - name: redis
+      image: redis:alpine
