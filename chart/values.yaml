@@ -16,5 +16,13 @@ ingress:
   host: oneapp.local
   path: /
 
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
 config:
   welcomeMessage: "ברוכים הבאים ל-oneapp! ההודעה הזו מגיעה מ-ConfigMap שמחובר כ-Volume לתוך ה-Pod."
