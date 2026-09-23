@@ -1,0 +1,17 @@
+# Q6 — declarative equivalent of the Q5 imperative service.
+# Selector MUST match the messaging pod label: tier=msg
+apiVersion: v1
+kind: Service
+metadata:
+  name: messaging-service
+  labels:
+    exam: q6
+spec:
+  type: ClusterIP
+  selector:
+    tier: msg
+  ports:
+    - name: redis
+      protocol: TCP
+      port: 6379
+      targetPort: 6379

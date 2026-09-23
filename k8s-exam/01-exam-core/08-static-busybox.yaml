@@ -1,0 +1,22 @@
+# Q8 — Static pod on the control-plane / master node.
+# Copy this file to the node (not kubectl apply):
+#   sudo cp 08-static-busybox.yaml /etc/kubernetes/manifests/static-busybox.yaml
+# On minikube:
+#   minikube ssh
+#   sudo cp /path/static-busybox.yaml /etc/kubernetes/manifests/static-busybox.yaml
+#
+# kubelet will create a mirror pod named static-busybox-<nodename>
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-busybox
+  labels:
+    exam: q8
+    type: static-pod
+spec:
+  containers:
+    - name: static-busybox
+      image: busybox
+      command: ["sleep", "1000"]
+      resources: {}
+  restartPolicy: Always

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hr-web-app
+  labels:
+    app: hr-web-app
+    exam: q7
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hr-web-app
+  template:
+    metadata:
+      labels:
+        app: hr-web-app
+    spec:
+      containers:
+        - name: webapp
+          image: kodekloud/webapp-color
+          ports:
+            - containerPort: 8080
