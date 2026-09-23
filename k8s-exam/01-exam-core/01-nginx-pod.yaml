@@ -4,7 +4,6 @@ metadata:
   name: nginx-pod-shahar
   labels:
     app: nginx
-    exam: q1
 spec:
   containers:
     - name: nginx

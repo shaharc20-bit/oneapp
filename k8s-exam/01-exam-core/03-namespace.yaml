@@ -2,13 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: apx-x998-shahar
-  labels:
-    exam: q3
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: finance-shahar
-  labels:
-    exam: q9
-    note: required-for-temp-bus-pod

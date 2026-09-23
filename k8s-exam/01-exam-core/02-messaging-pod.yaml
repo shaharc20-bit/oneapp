@@ -4,7 +4,6 @@ metadata:
   name: messaging
   labels:
     tier: msg
-    exam: q2
 spec:
   containers:
     - name: redis

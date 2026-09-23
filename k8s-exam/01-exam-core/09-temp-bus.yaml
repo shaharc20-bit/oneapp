@@ -3,8 +3,6 @@ kind: Pod
 metadata:
   name: temp-bus
   namespace: finance-shahar
-  labels:
-    exam: q9
 spec:
   containers:
     - name: redis
