@@ -1,0 +1,666 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: football:apps/Deployment:default/football
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2026-09-09T17:17:03Z"
+    generation: 6
+    labels:
+      app: football
+      pod-template-hash: 6c5b79d956
+    name: football-6c5b79d956
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: football
+      uid: f195feb2-078e-4713-a6a5-a3e54912b7e7
+    resourceVersion: "9818"
+    uid: bb76170d-327e-4733-b6b5-2f6baaccfbce
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: football
+        pod-template-hash: 6c5b79d956
+    template:
+      metadata:
+        labels:
+          app: football
+          pod-template-hash: 6c5b79d956
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: SECRET_KEY
+                name: football-secret
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                key: DATABASE_URL
+                name: postgres-credentials
+          image: football-app:v3
+          imagePullPolicy: Never
+          name: football
+          ports:
+          - containerPort: 7777
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/instance
+            name: data
+            subPath: instance
+          - mountPath: /app/app/static/uploads
+            name: data
+            subPath: uploads
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: football-data
+  status:
+    observedGeneration: 6
+    replicas: 0
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: football:apps/Deployment:default/football
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-09T16:58:04Z"
+    generation: 4
+    labels:
+      app: football
+      pod-template-hash: 849554567c
+    name: football-849554567c
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: football
+      uid: f195feb2-078e-4713-a6a5-a3e54912b7e7
+    resourceVersion: "8083"
+    uid: b68fe9c6-145b-49ff-a7e6-d0fd6d98762d
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: football
+        pod-template-hash: 849554567c
+    template:
+      metadata:
+        labels:
+          app: football
+          pod-template-hash: 849554567c
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: SECRET_KEY
+                name: football-secret
+          image: football-app:v2
+          imagePullPolicy: Never
+          name: football
+          ports:
+          - containerPort: 7777
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/instance
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: football-data
+  status:
+    observedGeneration: 4
+    replicas: 0
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: football:apps/Deployment:default/football
+      deployment.kubernetes.io/desired-replicas: "3"
+      deployment.kubernetes.io/max-replicas: "4"
+      deployment.kubernetes.io/revision: "3"
+    creationTimestamp: "2026-09-09T17:40:51Z"
+    generation: 3
+    labels:
+      app: football
+      app.kubernetes.io/instance: football
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: football
+      pod-template-hash: 9995df547
+    name: football-9995df547
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: football
+      uid: f195feb2-078e-4713-a6a5-a3e54912b7e7
+    resourceVersion: "19083"
+    uid: bde18f28-f196-46fe-8ca7-77f72cba6765
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: football
+        pod-template-hash: 9995df547
+    template:
+      metadata:
+        labels:
+          app: football
+          app.kubernetes.io/instance: football
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: football
+          pod-template-hash: 9995df547
+      spec:
+        containers:
+        - env:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: SECRET_KEY
+                name: football-secret
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                key: DATABASE_URL
+                name: postgres-credentials
+          image: football-app:v3
+          imagePullPolicy: Never
+          name: football
+          ports:
+          - containerPort: 7777
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /app/instance
+            name: data
+            subPath: instance
+          - mountPath: /app/app/static/uploads
+            name: data
+            subPath: uploads
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: football-data
+  status:
+    availableReplicas: 3
+    fullyLabeledReplicas: 3
+    observedGeneration: 3
+    readyReplicas: 3
+    replicas: 3
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: football:apps/Deployment:default/football-postgres
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-09T17:17:03Z"
+    generation: 2
+    labels:
+      app: football-postgres
+      pod-template-hash: 7d5cc8f8c
+    name: football-postgres-7d5cc8f8c
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: football-postgres
+      uid: fdd656b9-23cd-4c10-b110-bc950b6abe99
+    resourceVersion: "9554"
+    uid: 136adeaa-08ea-451a-b02c-46e4ee9bcba5
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: football-postgres
+        pod-template-hash: 7d5cc8f8c
+    template:
+      metadata:
+        labels:
+          app: football-postgres
+          pod-template-hash: 7d5cc8f8c
+      spec:
+        containers:
+        - envFrom:
+          - secretRef:
+              name: postgres-credentials
+          image: postgres:16-alpine
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-storage
+            subPath: pgdata
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-data
+  status:
+    observedGeneration: 2
+    replicas: 0
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: football:apps/Deployment:default/football-postgres
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2026-09-09T17:40:52Z"
+    generation: 1
+    labels:
+      app: football-postgres
+      app.kubernetes.io/instance: football
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: football
+      pod-template-hash: 869fddb4db
+    name: football-postgres-869fddb4db
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: football-postgres
+      uid: fdd656b9-23cd-4c10-b110-bc950b6abe99
+    resourceVersion: "19091"
+    uid: 3818db77-c837-4bfc-bc95-0ef48476cce6
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: football-postgres
+        pod-template-hash: 869fddb4db
+    template:
+      metadata:
+        labels:
+          app: football-postgres
+          app.kubernetes.io/instance: football
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: football
+          pod-template-hash: 869fddb4db
+      spec:
+        containers:
+        - envFrom:
+          - secretRef:
+              name: postgres-credentials
+          image: postgres:16-alpine
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-storage
+            subPath: pgdata
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-data
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: oneapp:apps/Deployment:default/oneapp-oneapp
+      deployment.kubernetes.io/desired-replicas: "2"
+      deployment.kubernetes.io/max-replicas: "3"
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: oneapp
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2026-09-09T15:26:15Z"
+    generation: 5
+    labels:
+      app: oneapp-oneapp
+      app.kubernetes.io/instance: oneapp
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: oneapp
+      app.kubernetes.io/version: 1.0.0
+      helm.sh/chart: oneapp-0.1.0
+      pod-template-hash: 58cdd67c78
+    name: oneapp-oneapp-58cdd67c78
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: oneapp-oneapp
+      uid: 7d6ef141-3c55-4446-9c26-56236a907e4c
+    resourceVersion: "20933"
+    uid: 17f59954-f255-40ce-b5cf-2b735d83210c
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: oneapp-oneapp
+        pod-template-hash: 58cdd67c78
+    template:
+      metadata:
+        annotations:
+          checksum/config: 1fbda15b79de99d9cecb0828a9b83bac1fa67334b3d51405979afd0f1c127a26
+        labels:
+          app: oneapp-oneapp
+          app.kubernetes.io/instance: oneapp
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: oneapp
+          app.kubernetes.io/version: 1.0.0
+          helm.sh/chart: oneapp-0.1.0
+          pod-template-hash: 58cdd67c78
+      spec:
+        containers:
+        - image: shaharc20:latest
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 5050
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: oneapp
+          ports:
+          - containerPort: 5050
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 5050
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/oneapp-config
+            name: config-volume
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: oneapp-oneapp-config
+          name: config-volume
+  status:
+    observedGeneration: 5
+    replicas: 0
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: oneapp:apps/Deployment:default/oneapp-oneapp
+      deployment.kubernetes.io/desired-replicas: "2"
+      deployment.kubernetes.io/max-replicas: "3"
+      deployment.kubernetes.io/revision: "2"
+      meta.helm.sh/release-name: oneapp
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2026-09-23T16:26:45Z"
+    generation: 2
+    labels:
+      app: oneapp-oneapp
+      app.kubernetes.io/instance: oneapp
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: oneapp
+      app.kubernetes.io/version: 1.0.0
+      helm.sh/chart: oneapp-0.1.0
+      pod-template-hash: 799b548759
+    name: oneapp-oneapp-799b548759
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: oneapp-oneapp
+      uid: 7d6ef141-3c55-4446-9c26-56236a907e4c
+    resourceVersion: "20870"
+    uid: 4ed4e1ea-99cf-4afe-a38a-e90d45d23429
+  spec:
+    replicas: 2
+    selector:
+      matchLabels:
+        app: oneapp-oneapp
+        pod-template-hash: 799b548759
+    template:
+      metadata:
+        annotations:
+          checksum/config: 1fbda15b79de99d9cecb0828a9b83bac1fa67334b3d51405979afd0f1c127a26
+        labels:
+          app: oneapp-oneapp
+          app.kubernetes.io/instance: oneapp
+          app.kubernetes.io/managed-by: Helm
+          app.kubernetes.io/name: oneapp
+          app.kubernetes.io/version: 1.0.0
+          helm.sh/chart: oneapp-0.1.0
+          pod-template-hash: 799b548759
+      spec:
+        containers:
+        - image: shaharc20:latest
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 5050
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: oneapp
+          ports:
+          - containerPort: 5050
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 5050
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/oneapp-config
+            name: config-volume
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: oneapp-oneapp-config
+          name: config-volume
+  status:
+    availableReplicas: 2
+    fullyLabeledReplicas: 2
+    observedGeneration: 2
+    readyReplicas: 2
+    replicas: 2
+    terminatingReplicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "5"
+      deployment.kubernetes.io/max-replicas: "7"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-23T16:51:01Z"
+    generation: 1
+    labels:
+      app: webapp
+      pod-template-hash: 645b5b46cd
+    name: webapp-645b5b46cd
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: webapp
+      uid: 20a6fe7b-d4a8-4754-b398-5e40bdcb89af
+    resourceVersion: "22420"
+    uid: 148dc6a0-8a4c-4266-8e31-c06ca7c63532
+  spec:
+    replicas: 5
+    selector:
+      matchLabels:
+        app: webapp
+        pod-template-hash: 645b5b46cd
+    template:
+      metadata:
+        labels:
+          app: webapp
+          pod-template-hash: 645b5b46cd
+      spec:
+        containers:
+        - image: nginx
+          imagePullPolicy: Always
+          name: nginx
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 5
+    fullyLabeledReplicas: 5
+    observedGeneration: 1
+    readyReplicas: 5
+    replicas: 5
+    terminatingReplicas: 0
+kind: List
+metadata:
+  resourceVersion: ""

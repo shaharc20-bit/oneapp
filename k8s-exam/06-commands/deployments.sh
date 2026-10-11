@@ -28,11 +28,12 @@ kubectl set image deploy/webapp nginx=nginx:1.100
 kubectl get pods
 kubectl rollout undo deploy/webapp
 kubectl set image deploy/webapp nginx=nginx:latest
-kubectl rollout history deploy/webapp --revision=7
+kubectl rollout history deploy/webapp --revision=6
 
 echo "=== HPA (אימפרטיבי, לא בקובץ YAML) ==="
 kubectl autoscale deploy webapp --min=10 --max=20 --cpu-percent=85
 kubectl get hpa
+kubectl get deploy webapp
 
 echo "=== ניקוי ==="
 kubectl delete deploy webapp

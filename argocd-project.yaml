@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: oneapp-project
+  namespace: argocd
+spec:
+  description: Allow access to the oneapp repository
+  sourceRepos:
+    - https://github.com/shaharc20-bit/oneapp.git
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  sourceNamespaces:
+    - '*'
