@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        timestamps()
+    }
+
     triggers {
         pollSCM('H/2 * * * *')
     }
@@ -27,6 +31,20 @@ pipeline {
                     pip3 install --break-system-packages --user --upgrade pip
                     pip3 install --break-system-packages --user -r requirements.txt
                 '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh '''
+                    pip3 install --break-system-packages --user pytest
+                    python3 -m pytest tests/ --junitxml=test-results.xml -v
+                '''
+            }
+            post {
+                always {
+                    junit 'test-results.xml'
+                }
             }
         }
 
@@ -71,6 +89,7 @@ pipeline {
     post {
         always {
             sh 'pkill -f "python3 app.py" || true'
+            cleanWs()
         }
         success { echo "Build ${BUILD_NUMBER} deployed to Kubernetes!" }
         failure { echo "Build failed - check flask.log in artifacts." }
