@@ -7,7 +7,7 @@ client = app.test_client()
 def test_home_page():
     r = client.get("/")
     assert r.status_code == 200
-    assert "OneApp" in r.get_data(as_text=True)
+    assert "Service Online" in r.get_data(as_text=True)
 
 def test_health():
     r = client.get("/health")
