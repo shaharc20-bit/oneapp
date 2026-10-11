@@ -6,6 +6,10 @@ metadata:
     {{- include "oneapp.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: {{ .Release.Name }}-oneapp
@@ -16,6 +20,7 @@ spec:
       labels:
         {{- include "oneapp.labels" . | nindent 8 }}
     spec:
+      terminationGracePeriodSeconds: 5
       volumes:
         - name: config-volume
           configMap:
@@ -42,5 +47,5 @@ spec:
             httpGet:
               path: /health
               port: {{ .Values.service.targetPort }}
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: 2
+            periodSeconds: 3
