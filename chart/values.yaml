@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: shaharc20
-  tag: latest
+  tag: ""  # Jenkins sets the real tag (--set image.tag=BUILD_NUMBER); empty = Chart appVersion
   pullPolicy: IfNotPresent
 
 service:
