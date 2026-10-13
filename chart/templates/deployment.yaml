@@ -20,6 +20,8 @@ spec:
       labels:
         {{- include "oneapp.labels" . | nindent 8 }}
     spec:
+      # The pod never talks to the Kubernetes API, so it gets no service account token
+      automountServiceAccountToken: false
       terminationGracePeriodSeconds: 5
       volumes:
         - name: config-volume

@@ -166,7 +166,7 @@ HOME_TEMPLATE = """
 </html>
 """
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
     return render_template_string(
         HOME_TEMPLATE,
@@ -179,11 +179,11 @@ def home():
         config_message=get_config_message()
     )
 
-@app.route("/health")
+@app.route("/health", methods=["GET"])
 def health():
     return jsonify(status="ok", time=datetime.now(timezone.utc).isoformat())
 
-@app.route("/api/info")
+@app.route("/api/info", methods=["GET"])
 def info():
     return jsonify(
         app=APP_NAME,
@@ -196,4 +196,6 @@ def info():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
-    app.run(host="0.0.0.0", port=port)
+    # Local runs listen only on localhost; the Docker image sets HOST=0.0.0.0
+    host = os.environ.get("HOST", "127.0.0.1")
+    app.run(host=host, port=port)

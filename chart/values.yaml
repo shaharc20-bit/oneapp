@@ -20,9 +20,11 @@ resources:
   requests:
     cpu: 50m
     memory: 64Mi
+    ephemeral-storage: 32Mi
   limits:
     cpu: 200m
     memory: 128Mi
+    ephemeral-storage: 128Mi
 
 config:
   welcomeMessage: "ברוכים הבאים ל-oneapp! ההודעה הזו מגיעה מ-ConfigMap שמחובר כ-Volume לתוך ה-Pod."
