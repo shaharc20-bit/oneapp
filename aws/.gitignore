@@ -1,0 +1,14 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+*.pem
+
+aws-values.yaml
+
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
