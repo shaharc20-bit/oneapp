@@ -1,22 +1,29 @@
 import os
+
 import boto3
-from flask import Flask, render_template_string
+from flask import Flask, jsonify, render_template_string
 
 app = Flask(__name__)
 
 # Fetch AWS credentials from environment variables
 AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-REGION = "us-east-1"
+REGION = os.getenv("AWS_REGION", "us-east-1")
 
 # Initialize Boto3 clients
 session = boto3.Session(
     aws_access_key_id=AWS_ACCESS_KEY,
     aws_secret_access_key=AWS_SECRET_KEY,
-    region_name=REGION
+    region_name=REGION,
 )
 ec2_client = session.client("ec2")
 elb_client = session.client("elbv2")
+
+
+@app.route("/health")
+def health():
+    return jsonify(status="ok")
+
 
 @app.route("/")
 def home():
@@ -29,17 +36,29 @@ def home():
                 "ID": instance["InstanceId"],
                 "State": instance["State"]["Name"],
                 "Type": instance["InstanceType"],
-                "Public IP": instance.get("PublicIpAddress", "N/A")
+                "Public IP": instance.get("PublicIpAddress", "N/A"),
             })
 
     # Fetch VPCs
-    vpc_data = [{"VPC ID": vpc["VpcId"], "CIDR": vpc["CidrBlock"]} for vpc in vpcs["Vpcs"]]
+    vpcs = ec2_client.describe_vpcs()
+    vpc_data = [
+        {"VPC ID": vpc["VpcId"], "CIDR": vpc["CidrBlock"]}
+        for vpc in vpcs["Vpcs"]
+    ]
 
     # Fetch Load Balancers
-    lb_data = [{"LB Name": lb["LoadBalancerName"], "DNS Name": lb["DNSName"]} for lb in lbs["LoadBalancers"]]
+    lbs = elb_client.describe_load_balancers()
+    lb_data = [
+        {"LB Name": lb["LoadBalancerName"], "DNS Name": lb["DNSName"]}
+        for lb in lbs["LoadBalancers"]
+    ]
 
     # Fetch AMIs (only owned by the account)
-    ami_data = [{"AMI ID": ami["ImageId"], "Name": ami.get("Name", "N/A")} for ami in amis["Images"]]
+    amis = ec2_client.describe_images(Owners=["self"])
+    ami_data = [
+        {"AMI ID": ami["ImageId"], "Name": ami.get("Name", "N/A")}
+        for ami in amis["Images"]
+    ]
 
     # Render the result in a simple table
     html_template = """
@@ -81,7 +100,18 @@ def home():
     </html>
     """
 
-    return render_template_string(html_template, instance_data=instance_data, vpc_data=vpc_data, lb_data=lb_data, ami_data=ami_data)
+    return render_template_string(
+        html_template,
+        instance_data=instance_data,
+        vpc_data=vpc_data,
+        lb_data=lb_data,
+        ami_data=ami_data,
+    )
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(
+        host=os.getenv("HOST", "127.0.0.1"),
+        port=int(os.getenv("PORT", "5001")),
+        debug=os.getenv("FLASK_DEBUG", "false").lower() == "true",
+    )
