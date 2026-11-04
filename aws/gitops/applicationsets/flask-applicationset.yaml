@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: flask-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/shaharc20-bit/oneapp.git
+        revision: main
+        directories:
+          - path: aws/gitops/flask-aws-monitor/*
+  template:
+    metadata:
+      name: 'flask-aws-monitor-{{path.basename}}'
+      labels:
+        app: flask-aws-monitor
+        env: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/shaharc20-bit/oneapp.git
+        targetRevision: main
+        path: aws/gitops/charts/flask-aws-monitor
+        helm:
+          releaseName: flask-aws-monitor
+          valueFiles:
+            - '../../flask-aws-monitor/{{path.basename}}/values.yaml'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'flask-{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
